@@ -1,1 +1,1 @@
-# 基于weex、storybook的组件展示平台
+# 基于storybook-ui的weex组件展示平台
