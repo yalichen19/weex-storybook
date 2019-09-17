@@ -22,10 +22,15 @@ export default class MyProvider extends Provider {
   renderPreview = (storyId) => {
     if (!storyId) return null;
     return (
-      <iframe
-          id="storybook-preview-iframe"
-          src={"./iframe.html?id=" + storyId}
-        />
+      <div id="storybook-preview-iframe">
+        <iframe src={"./iframe.html?id=" + storyId}
+          style={{
+            width: '200%',
+            height: '200%',
+            transform: 'scale(0.5)',
+            transformOrigin: 'top left'
+          }}/>
+      </div>
     );
   }
 
