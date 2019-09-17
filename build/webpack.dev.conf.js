@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // 生成html模板
 const ip = require('ip').address();
 const resolve = (dir) => path.join(__dirname, '..', dir);
+const stories = require('../stories/getStories')
 
 module.exports = {
   mode: 'development', // webpack4新增属性，默认返回production,提供一些默认配置，例如cache:true
@@ -13,6 +14,8 @@ module.exports = {
   // module 包含了模块之间的sourcemap
   entry: {
     index: './src/index.js', // 设置入口文件
+    iframe: './src/iframe.entry.js',
+    vendor: [path.resolve('node_modules/phantom-limb/index.js'),'babel-polyfill']
   },
   output: {
     filename: '[name].js', // 生成的js文件的名字
@@ -27,6 +30,29 @@ module.exports = {
           loader: 'babel-loader',
         }
       },
+      {
+        test: /\.vue$/,
+        use: [{
+          loader: 'vue-loader',
+          options: {
+            threadMode: true,
+            optimizeSSR: false,
+            postcss: [
+              require('postcss-plugin-weex')(),
+              require('autoprefixer')({
+                browsers: ['> 0.1%', 'ios >= 8', 'not ie < 12']
+              }),
+              require('postcss-plugin-px2rem')({ rootValue: 75 })
+            ],
+            compilerModules: [
+              {
+                // to convert vnode for weex components.
+                postTransformNode: el => require('weex-vue-precompiler')()(el)
+              }
+            ]
+          }
+        }],
+      },
     ],
   },
   devServer: { // 配置webpack-dev-server， 在本地启动一个服务器运行
@@ -36,10 +62,30 @@ module.exports = {
     hot: true, // 设置热更新(引用react热更新必须设置)
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       filename: resolve('/dist/index.html'), // 生成的html文件存放的地址和文件名
       template: resolve("/index.html"), // 基于index.html模板进行生成html文件
+      chunks: ['index']
     }),
+    new HtmlWebpackPlugin({
+      filename: resolve('/dist/iframe.html'),
+      template: resolve("/iframe.html"),
+      isDevServer: true,
+      chunksSortMode: 'dependency',
+      inject: true,
+      chunks: ['vendor', 'iframe']
+    }),
+    /*
+    * Plugin: BannerPlugin
+    * Description: Adds a banner to the top of each generated chunk.
+    * See: https://webpack.js.org/plugins/banner-plugin/
+    */
+    new webpack.BannerPlugin({
+      banner: '// { "framework": "Vue"} \n',
+      raw: true
+    }),
+    new webpack.DefinePlugin({
+      STORYBOOK_STORIES: JSON.stringify(stories)
+    })
   ]
 }

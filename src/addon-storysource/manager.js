@@ -8,7 +8,7 @@ import { ADDON_ID, PANEL_ID } from '.';
 export function register() {
   addons.register(ADDON_ID, api => {
     addons.addPanel(PANEL_ID, {
-      title: 'Story',
+      title: 'Source',
       render: ({ active, key }) => <StoryPanel key={key} api={api} active={active} />,
     });
   });

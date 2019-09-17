@@ -1,0 +1,17 @@
+[
+  {
+    "id": "icon_type_1",
+    "kind": "Icon",
+    "name": "type-1"
+  },
+  {
+    "id": "button_type_1",
+    "kind": "Button",
+    "name": "type-1"
+  },
+  {
+    "id": "button_type_2",
+    "kind": "Button",
+    "name": "type-2"
+  }
+]
