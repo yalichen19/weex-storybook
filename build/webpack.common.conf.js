@@ -149,6 +149,7 @@ const webConfig = {
 
 // Config for compile jsbundle for native.
 const weexConfig = {
+  mode: 'development', // webpack4新增属性，默认返回production,提供一些默认配置，例如cache:true
   entry: weexEntry,
   output: {
     path: resolve('dist'),
@@ -189,7 +190,7 @@ const weexConfig = {
    *
    * See: http://webpack.github.io/docs/configuration.html#plugins
    */
-  plugins: plugins,
+  plugins: plugins
 
 };
 module.exports = [webConfig, weexConfig];
