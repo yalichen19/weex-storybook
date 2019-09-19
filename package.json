@@ -51,13 +51,16 @@
     "webpack-cli": "^3.3.8",
     "webpack-dev-server": "^3.8.0",
     "weex-loader": "^0.7.12",
+    "weex-ui": "^0.3.11",
     "weex-vue-precompiler": "^0.1.22"
   },
   "dependencies": {
     "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
     "@vue/babel-preset-jsx": "^1.1.0",
     "babel-polyfill": "^6.26.0",
+    "less-loader": "^5.0.0",
     "phantom-limb": "0.0.1",
+    "qrcode.react": "^0.9.3",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "uglifyjs-webpack-plugin": "^2.2.0",

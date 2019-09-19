@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>Index</title>
   <meta name="weex-viewport" content="750">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="format-detection" content="telephone=no, email=no">
   <style>
-    html, body, #weex {
+    html,
+    body,
+    #weex {
       width: 100%;
       height: 100%;
     }
-    html, body {
+
+    html,
+    body {
       -ms-overflow-style: scrollbar;
       -webkit-tap-highlight-color: transparent;
       padding: 0;
@@ -23,6 +29,7 @@
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
     }
+
     body::before {
       content: "1";
       height: 1px;
@@ -32,16 +39,20 @@
     }
   </style>
 </head>
+
 <body>
   <div id="root"></div>
 </body>
+<script src="//g.alicdn.com/mtb/weex-static/0.1.7/phantom-limb.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/weex-vue-render@1.0.31/dist/index.common.min.js"></script>
 <script>
   window.addEventListener('load', function () {
     var is_touch_device = function () {
       return 'ontouchstart' in window // works on most browsers
-          || 'onmsgesturechange' in window; // works on ie10
+        || 'onmsgesturechange' in window; // works on ie10
     };
-    if(!is_touch_device()) {
+    if (!is_touch_device()) {
       if (window.parent === window) { // not in iframe.
         window.phantomLimb.stop()
       }
@@ -50,5 +61,20 @@
   window.onresize = function () {
     window.location.reload()
   }
+
+  function getUrlParams(param) {
+    const search = location.search
+    const result = new RegExp('[?|&]' + param + '=([^&]+)', "ig").exec(search)
+    return result && result[1]
+  }
+
+  const hash = getUrlParams("id")
+  if (!hash) document.querySelectorAll("#root")[0].innerHTML = '<img src="https://img.1234567.com.cn/defaultpage/NS-003@2x.png"/>'
+  else {
+    const _script = document.createElement("script")
+    _script.src = '/dist/' + hash + '.web.js'
+    document.body.appendChild(_script)
+  }
 </script>
+
 </html>

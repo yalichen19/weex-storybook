@@ -3,6 +3,8 @@ import { Provider } from '@storybook/ui';
 import addons from '@storybook/addons';
 import './addon-viewport/register';
 import './addon-storysource/register';
+import './addon-qrcode/register';
+import { create } from '@storybook/theming';
 export default class MyProvider extends Provider {
   constructor() {
     super();
@@ -35,10 +37,16 @@ export default class MyProvider extends Provider {
   }
 
   handleAPI(api) {
-    console.log(this)
-    console.log(api, 'api')
+    this.api = api
     this.addons.loadAddons(api)
     setTimeout(() => {
+      api.clearNotification('update');
+      api.setOptions({
+        panelPosition: 'right',
+        theme: create({
+          brandTitle: 'XX',
+        }),
+      })
       api.setStories(STORYBOOK_STORIES)
     }, 1000)
   }

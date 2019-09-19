@@ -1,10 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // 生成html模板
-const ip = require('ip').address();
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const resolve = (dir) => path.join(__dirname, '..', dir);
 const stories = require('../stories/getStories')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 module.exports = {
   mode: 'production', // webpack4新增属性，默认返回production,提供一些默认配置，例如cache:true
   devtool: 'cheap-module-eval-source-map',
@@ -54,12 +54,6 @@ module.exports = {
         }],
       },
     ],
-  },
-  devServer: { // 配置webpack-dev-server， 在本地启动一个服务器运行
-    host: ip, // 服务器的ip地址 希望服务器外可以访问就设置 0.0.0.0
-    port: 8088, // 端口
-    open: true, // 自动打开页面
-    hot: true, // 设置热更新(引用react热更新必须设置)
   },
   plugins: [
     new HtmlWebpackPlugin({
